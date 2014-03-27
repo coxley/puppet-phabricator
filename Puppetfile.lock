@@ -1,0 +1,20 @@
+FORGE
+  remote: http://forge.puppetlabs.com
+  specs:
+    puppetlabs/apache (1.0.1)
+      puppetlabs/concat (>= 1.0.0)
+      puppetlabs/stdlib (>= 2.4.0)
+    puppetlabs/concat (1.1.0-rc1)
+      puppetlabs/stdlib (>= 3.0.0)
+    puppetlabs/git (0.0.3)
+    puppetlabs/mysql (2.2.3)
+      puppetlabs/stdlib (>= 3.2.0)
+    puppetlabs/stdlib (4.1.0)
+    puppetlabs/vcsrepo (0.2.0)
+
+DEPENDENCIES
+  puppetlabs/apache (~> 1.0)
+  puppetlabs/git (~> 0.0)
+  puppetlabs/mysql (~> 2.0)
+  puppetlabs/vcsrepo (~> 0.0)
+
