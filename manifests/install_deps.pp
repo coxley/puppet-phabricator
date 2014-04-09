@@ -9,6 +9,13 @@ class phabricator::install_deps {
     ]:
         ensure => 'installed',
         notify => Service['httpd'],
+
+        # We must break encapsulation to make sure mod_php is installed before
+        # the php packages so their virtual dependencies don't install php-fpm.
+        #
+        # http://projects.puppetlabs.com/issues/8040
+        # http://docs.puppetlabs.com/puppet/3/reference/lang_containment.html#containing-classes
+        require => Apache::Mod['php5']
     }
 
     # The CLI is needed for some of the administration commands.

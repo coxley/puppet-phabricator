@@ -1,23 +1,33 @@
 require 'rake'
 require 'rspec/core/rake_task'
 
+default_platform = 'saucy'
+
 desc "Start VM and run all tests in it (will not destroy VM)"
-task :spec do
-    system('vagrant', 'up')
-    system('vagrant', 'ssh', '-c', 'cd /vagrant && bundle exec rake spec:localhost') || exit($?.exitstatus)
+task :spec, [:platform] do |t, args|
+    args.with_defaults(:platform => default_platform)
+    system('vagrant', 'up', args.platform) || exit($?.exitstatus)
+    system('vagrant', 'ssh', args.platform, '-c', <<-EOS) || exit($?.exitstatus)
+      set -e -x
+      export PATH="/opt/ruby/bin:$PATH"
+      cd /vagrant
+      bundle exec rake spec:localhost
+    EOS
 end
 
 
 namespace :spec do
     desc "Run all tests in a fresh VM, and destroy it when done"
-    task :clean do
+    task :clean, [:platform] do |t, args|
+        args.with_defaults(:platform => default_platform)
+
         # destroy a running VM, if one exists, so we are sure to be running
         # tests on a fresh VM.
-        system('vagrant', 'destroy', '-f')
+        system('vagrant', 'destroy', '-f', args.platform)
         begin
-            Rake::Task[:spec].execute
+            Rake::Task[:spec].invoke(args.platform)
         ensure
-            system('vagrant', 'destroy', '-f')
+            system('vagrant', 'destroy', '-f', args.platform)
         end
     end
 
