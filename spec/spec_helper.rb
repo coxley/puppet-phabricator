@@ -1,8 +1,10 @@
 require 'rubygems'
 require 'serverspec'
+require 'rspec/todo'
 
 include SpecInfra::Helper::Exec
 include SpecInfra::Helper::DetectOS
+include RSpec::Todo
 
 RSpec.configure do |c|
   if ENV['ASK_SUDO_PASSWORD']
