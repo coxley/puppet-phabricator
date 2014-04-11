@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'serverspec'
+require 'rspec-puppet'
 require 'rspec/todo'
 
 include SpecInfra::Helper::Exec
@@ -13,6 +14,12 @@ RSpec.configure do |c|
   else
     c.sudo_password = ENV['SUDO_PASSWORD']
   end
+
+  c.module_path = '/usr/share/puppet/modules'
+  c.manifest_dir = '/usr/share/puppet/manifests'
+  c.default_facts = {
+    :concat_basedir => '/tmp/concat'
+  }
 
   c.color_enabled = true
   c.formatter = :documentation

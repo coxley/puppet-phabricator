@@ -11,7 +11,7 @@ task :spec, [:platform] do |t, args|
       set -e -x
       export PATH="/opt/ruby/bin:$PATH"
       cd /vagrant
-      bundle exec rake spec:localhost
+      bundle exec rake spec:unit spec:localhost
     EOS
 end
 
@@ -34,6 +34,11 @@ namespace :spec do
     desc "Run tests on the local host (will run manifests: invoke from a VM)"
     RSpec::Core::RakeTask.new(:localhost) do |t|
         t.pattern = 'spec/localhost/*_spec.rb'
+    end
+
+    desc "Run rspec-puppet unit tests"
+    RSpec::Core::RakeTask.new(:unit) do |t|
+	t.pattern = 'spec/classes/*_spec.rb'
     end
 end
 

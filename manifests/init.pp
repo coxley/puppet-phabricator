@@ -7,6 +7,7 @@ class phabricator (
     $base_uri = undef,
 ) {
 
+    anchor { 'phabricator::begin': } ->
     # Note: install_apache must come before install_deps, because if mod_php
     # isn't intsalled when php-apc is installed, then php5-fpm will be
     # installed to satisfy php-apc's dependency on a virtual package.
@@ -23,5 +24,6 @@ class phabricator (
     } ->
     class { 'phabricator::daemons':
         phabricator_path => $phabricator_path,
-    }
+    } ->
+    anchor { 'phabricator::end': }
 }

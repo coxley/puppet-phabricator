@@ -4,10 +4,9 @@ Vagrant.configure("2") do |config|
 
     apt-get -qq update
     apt-get install -y git ruby-dev build-essential libxml2-dev libxslt1-dev
-    mkdir -p /usr/share/puppet/modules
+    mkdir -p /usr/share/puppet/modules /usr/share/puppet/manifests /etc/puppet
     chown vagrant:vagrant /usr/share/puppet/modules
-    mkdir -p /etc/puppet
-    touch /etc/puppet/hiera.yaml
+    touch /etc/puppet/hiera.yaml /usr/share/puppet/manifests/site.pp
   EOS
 
   # this is common to all boxes, but must be run *after* box-specific
