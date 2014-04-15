@@ -9,10 +9,21 @@ FORGE
     puppetlabs/git (0.0.3)
     puppetlabs/mysql (2.2.3)
       puppetlabs/stdlib (>= 3.2.0)
-    puppetlabs/stdlib (4.1.0)
+    puppetlabs/stdlib (3.2.1)
     puppetlabs/vcsrepo (0.2.0)
 
+GIT
+  remote: https://github.com/macprofessionals/puppet-arcanist.git
+  ref: master
+  sha: 8cb27b6eec2234c4e2741b8a95610129168317d0
+  specs:
+    macprofessionals/arcanist (0.0.1)
+      puppetlabs/git (~> 0.0)
+      puppetlabs/stdlib (~> 3.0)
+      puppetlabs/vcsrepo (~> 0.0)
+
 DEPENDENCIES
+  macprofessionals/arcanist (>= 0)
   puppetlabs/apache (~> 1.0)
   puppetlabs/git (~> 0.0)
   puppetlabs/mysql (~> 2.0)

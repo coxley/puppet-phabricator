@@ -5,17 +5,12 @@ class phabricator::install_phabricator (
 ) {
     include 'git'
 
-    vcsrepo { $libphutil_path:
-        ensure => 'present',
-        provider => 'git',
-        source => 'git://github.com/facebook/libphutil.git',
-    }
-
-    vcsrepo { $arcanist_path:
-        ensure => 'present',
-        provider => 'git',
-        source => 'git://github.com/facebook/arcanist.git',
-    }
+    Anchor['phabricator::begin'] ->
+    class { 'arcanist':
+        libphutil_path => $libphutil_path,
+        arcanist_path => $arcanist_path,
+    } ->
+    Anchor['phabricator::end']
 
     vcsrepo { $phabricator_path:
         ensure => 'present',

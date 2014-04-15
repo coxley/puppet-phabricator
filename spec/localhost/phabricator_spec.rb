@@ -59,4 +59,9 @@ describe 'validating' do
     describe port(9000) do
         it { should_not be_listening }
     end
+
+    describe command('arc help') do
+        it { should return_exit_status 0 }
+        its(:stdout) { should_not match /need to install|missing/ }
+    end
 end

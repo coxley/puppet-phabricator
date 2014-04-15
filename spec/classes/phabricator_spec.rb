@@ -21,7 +21,7 @@ describe 'phabricator' do
   it { should contain_anchor('phabricator::end') }
 
   describe 'other services' do
-    %w{Apache Mysql::Server}.each do |name|
+    %w{Arcanist Apache Mysql::Server}.each do |name|
       it { should contain_class(name).that_is_anchored }
     end
   end
