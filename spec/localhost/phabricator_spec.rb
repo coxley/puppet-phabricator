@@ -1,43 +1,47 @@
 require 'spec_helper'
 
-describe 'provisioning' do
-    describe command('sudo puppet apply --detailed-exitcodes -e "include phabricator"') do
-        it 'runs without failures' do
-            expect(subject.stdout).to_not match /^Error:/i
-            expect(subject.exit_status & ~2).to eq(0), <<-EOS
-Puppet exited with status #{subject.exit_status}.
 
-stdout:
-#{subject.stdout}
+def command_error_message(subject)
+    <<-EOS
+    #{subject} exited with status #{subject.exit_status}.
 
-stderr:
-#{subject.stderr}
-            EOS
+    stdout:
+    #{subject.stdout}
 
-            # invaluable for understanding what went wrong later.
-            $stdout.write subject.stdout
-        end
+    stderr:
+    #{subject.stderr}
+    EOS
+end
 
-        it 'runs without warnings' do
-            expect(subject.stdout).to_not match /^Warning:/i
-        end
+
+shared_examples 'a well-behaved manifest' do
+    it 'runs without failures' do
+        expect(subject.stdout).to_not match /^Error:/i
+        expect(subject.exit_status & ~2).to eq(0), command_error_message(subject)
+        # invaluable for understanding what went wrong later.
+        $stdout.write subject.stdout
     end
 
-    describe command('sudo puppet apply --detailed-exitcodes -e "include phabricator"') do
+    it 'runs without warnings' do
+        expect(subject.stdout).to_not match /^Warning:/i
+    end
+end
+
+
+describe 'provisioning' do
+    puppet_apply = 'sudo puppet apply --detailed-exitcodes -e "include phabricator"'
+    describe command(puppet_apply) do
+        include_examples 'a well-behaved manifest'
+    end
+
+    describe command(puppet_apply) do
         it 'is idempotent' do
 	    # phabricator::configure isn't idempotent. Need to fix that.
-            todo { expect(subject.exit_status).to eq(0), <<-EOS }
-Puppet exited with status #{subject.exit_status}.
-
-stdout:
-#{subject.stdout}
-
-stderr:
-#{subject.stderr}
-            EOS
+            todo { expect(subject.exit_status).to eq(0), command_error_message(subject) }
         end
     end
 end
+
 
 describe 'validating' do
     describe port(80) do
@@ -63,5 +67,13 @@ describe 'validating' do
     describe command('arc help') do
         it { should return_exit_status 0 }
         its(:stdout) { should_not match /need to install|missing/ }
+    end
+
+    describe service('phabricator') do
+        it { should be_running }
+    end
+
+    describe command('sudo /etc/init.d/phabricator status') do
+        its(:exit_status) { should eq(0), command_error_message(subject) }
     end
 end

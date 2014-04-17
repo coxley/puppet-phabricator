@@ -12,6 +12,13 @@ class phabricator::install_phabricator (
     } ->
     Anchor['phabricator::end']
 
+    # Ubuntu disables pcntl_* functions in php.ini, but phabricator's daemons need them.
+    exec { "/bin/sed '/^disable_functions = pcntl/d' -i.orig /etc/php5/cli/php.ini":
+        creates => '/etc/php5/cli/php.ini.orig',
+        require => Package['php5-cli'],
+        before => Class['::phabricator::daemons'],
+    }
+
     vcsrepo { $phabricator_path:
         ensure => 'present',
         provider => 'git',
