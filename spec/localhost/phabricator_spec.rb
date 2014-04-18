@@ -76,4 +76,11 @@ describe 'validating' do
     describe command('sudo /etc/init.d/phabricator status') do
         its(:exit_status) { should eq(0), command_error_message(subject) }
     end
+
+    # Phabricator will run without the PHP LDAP extension, but of course LDAP
+    # authentication won't work.
+
+    describe command('php -r \'echo extension_loaded("ldap");\'') do
+        its(:stdout) { should == '1' }
+    end
 end

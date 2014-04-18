@@ -42,6 +42,7 @@ describe 'phabricator' do
       php5-gd
       php5-json
       php5-mysql
+      php5-ldap
       php-apc
     }.each do |name|
       it { should contain_package(name).that_requires('Package[php5-cli]') }

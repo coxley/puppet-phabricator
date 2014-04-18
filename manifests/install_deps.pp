@@ -4,6 +4,7 @@ class phabricator::install_deps {
         'php5-gd',
         'php5-mysql',
         'php-apc',
+        'php5-ldap',
     ]:
         ensure => 'installed',
         notify => Service['httpd'],
