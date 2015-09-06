@@ -1,4 +1,10 @@
-class phabricator::install_deps {
+class phabricator::install_deps (
+  $mysql_options = {
+    'mysqld' => {
+      'sql-mode' => 'STRICT_ALL_TABLES',
+    }
+  }
+){
     # PHP modules required by Phabricator
     package { [
         'php5-gd',
@@ -19,11 +25,7 @@ class phabricator::install_deps {
     # I heard Phabricator also needs a database.
     Anchor['phabricator::begin'] ->
     class { '::mysql::server':
-        override_options => {
-            'mysqld' => {
-                'sql-mode' => 'STRICT_ALL_TABLES',
-            },
-        },
+        override_options => $mysql_options,
         # it's OK to restart mysql after my.cnf is configured by puppet
         restart => true,
     } ->
