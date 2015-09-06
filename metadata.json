@@ -1,0 +1,16 @@
+{
+  "name": "macpros-phabricator",
+  "version": "0.0.1",
+  "author": "Phil Frost <phil@macprofessionals.com>",
+  "license": "WTFPL 2.0",
+  "summary": "Install and manage Phabricator <http://phabricator.org/>",
+  "source": "https://github.com/macprofessionals/puppet-phabricator",
+  "project_page": "https://github.com/macprofessionals/puppet-phabricator",
+  "issues_url": "https://github.com/macprofessionals/puppet-phabricator/issues",
+  "dependencies": [
+    { "name": "puppetlabs/apache", "version_requirement": ">= 1.0.0" },
+    { "name": "puppetlabs/mysql", "version_requirement": ">= 2.0.0" },
+    { "name": "puppetlabs/vcsrepo", "version_requirement": ">= 0.0.1" },
+    { "name": "puppetlabs/git", "version_requirement": ">= 0.0.1" }
+  ]
+}
