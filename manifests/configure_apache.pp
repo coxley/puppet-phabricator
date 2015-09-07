@@ -1,10 +1,11 @@
 class phabricator::configure_apache (
     $phabricator_path,
     $timezone,
+    $port = 80,
 ) {
     # Apache, meet Phabricator.
     apache::vhost { 'phabricator':
-        port => '80',
+        port => $port,
         docroot => "${phabricator_path}/webroot",
         rewrites => [ {
             rewrite_rule => [

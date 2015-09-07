@@ -1,6 +1,6 @@
 {
   "name": "macpros-phabricator",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "author": "Phil Frost <phil@macprofessionals.com>",
   "license": "WTFPL 2.0",
   "summary": "Install and manage Phabricator <http://phabricator.org/>",
